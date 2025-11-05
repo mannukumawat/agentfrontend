@@ -1,0 +1,305 @@
+/* Basic reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Login */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-container form div {
+  margin-bottom: 15px;
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Dashboard */
+.dashboard {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.dashboard header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.dashboard-content {
+  display: flex;
+  gap: 20px;
+}
+
+.dashboard-content section {
+  flex: 1;
+}
+
+.dashboard-content h2 {
+  margin-bottom: 15px;
+}
+
+.dashboard-content ul {
+  list-style: none;
+}
+
+.dashboard-content li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.dashboard-content a {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.dashboard-content a:hover {
+  text-decoration: underline;
+}
+
+/* Customer List */
+.customer-list {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.customer-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-list th, .customer-list td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.customer-list th {
+  background: #f8f9fa;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  gap: 5px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+/* Customer Form */
+.customer-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.customer-form h2 {
+  margin-bottom: 20px;
+}
+
+.customer-form form div {
+  margin-bottom: 15px;
+}
+
+.customer-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.customer-form input,
+.customer-form select,
+.customer-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.customer-form textarea {
+  height: 80px;
+}
+
+.customer-form button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.customer-form button:hover {
+  background: #0056b3;
+}
+
+/* Customer Detail */
+.customer-detail {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.customer-info {
+  margin-bottom: 20px;
+}
+
+.customer-info p {
+  margin-bottom: 10px;
+}
+
+.uploaded-files {
+  margin-bottom: 20px;
+}
+
+.uploaded-files img {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.call-history ul {
+  list-style: none;
+}
+
+.call-history li {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.call-history li p {
+  margin-bottom: 5px;
+}
+
+/* Call History Form */
+.call-history-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.call-history-form div {
+  margin-bottom: 10px;
+}
+
+.call-history-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.call-history-form input,
+.call-history-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.call-history-form textarea {
+  height: 60px;
+}
+
+.call-history-form button {
+  padding: 8px 16px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.call-history-form button:hover {
+  background: #218838;
+}
