@@ -7,6 +7,7 @@ import AgentDashboard from './components/AgentDashboard';
 import CustomerList from './components/CustomerList';
 import CustomerForm from './components/CustomerForm';
 import CustomerDetail from './components/CustomerDetail';
+import Navbar from './components/Navbar';
 import './App.css';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -27,59 +28,62 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/admin"
-              element={
-                <PrivateRoute allowedRoles={['admin']}>
-                  <AdminDashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/agent"
-              element={
-                <PrivateRoute allowedRoles={['agent']}>
-                  <AgentDashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/customers"
-              element={
-                <PrivateRoute>
-                  <CustomerList />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/customers/new"
-              element={
-                <PrivateRoute>
-                  <CustomerForm />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/customers/:id"
-              element={
-                <PrivateRoute>
-                  <CustomerDetail />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/customers/:id/edit"
-              element={
-                <PrivateRoute>
-                  <CustomerForm />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/" element={<Navigate to="/login" />} />
-          </Routes>
+        <div className="min-h-screen bg-gray-100">
+          <Navbar />
+          <div className="container mx-auto px-4 py-8">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/admin"
+                element={
+                  <PrivateRoute allowedRoles={['admin']}>
+                    <AdminDashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/agent"
+                element={
+                  <PrivateRoute allowedRoles={['agent']}>
+                    <AgentDashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/customers"
+                element={
+                  <PrivateRoute>
+                    <CustomerList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/customers/new"
+                element={
+                  <PrivateRoute>
+                    <CustomerForm />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/customers/:id"
+                element={
+                  <PrivateRoute>
+                    <CustomerDetail />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/customers/:id/edit"
+                element={
+                  <PrivateRoute>
+                    <CustomerForm />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/" element={<Navigate to="/login" />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </AuthProvider>
