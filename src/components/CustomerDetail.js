@@ -29,80 +29,108 @@ const CustomerDetail = () => {
     fetchCallHistories();
   };
 
-  if (!customer) return <div>Loading...</div>;
+  if (!customer) return <div className="flex justify-center items-center h-64"><div className="text-lg text-gray-600">Loading...</div></div>;
 
   return (
-    <div className="customer-detail">
-      <h2>{customer.customerName}</h2>
-      <Link to={`/customers/${id}/edit`}>Edit Customer</Link>
+    <div className="space-y-6">
+      <div className="bg-white shadow rounded-lg">
+        <div className="px-4 py-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">{customer.customerName}</h2>
+            <Link to={`/customers/${id}/edit`} className="mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Edit Customer
+            </Link>
+          </div>
 
-      <div className="customer-info">
-        <p><strong>Mobile:</strong> {customer.mobileNumbers?.join(', ')}</p>
-        <p><strong>Email:</strong> {customer.emails?.join(', ')}</p>
-        <p><strong>Address:</strong> {customer.address}</p>
-        <p><strong>Pin Code:</strong> {customer.pinCode}</p>
-        <p><strong>Credit Score:</strong> {customer.creditScore}</p>
-        <p><strong>Occupation:</strong> {customer.occupation}</p>
-        <p><strong>Income:</strong> {customer.income}</p>
-      </div>
+          <div className="customer-info grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="space-y-3">
+              <p className="text-sm"><strong className="text-gray-700">Mobile:</strong> <span className="text-gray-900">{customer.mobileNumbers?.join(', ')}</span></p>
+              <p className="text-sm"><strong className="text-gray-700">Email:</strong> <span className="text-gray-900">{customer.emails?.join(', ')}</span></p>
+              <p className="text-sm"><strong className="text-gray-700">Address:</strong> <span className="text-gray-900">{customer.address}</span></p>
+              <p className="text-sm"><strong className="text-gray-700">Pin Code:</strong> <span className="text-gray-900">{customer.pinCode}</span></p>
+            </div>
+            <div className="space-y-3">
+              <p className="text-sm"><strong className="text-gray-700">Credit Score:</strong> <span className="text-gray-900">{customer.creditScore}</span></p>
+              <p className="text-sm"><strong className="text-gray-700">Occupation:</strong> <span className="text-gray-900">{customer.occupation}</span></p>
+              <p className="text-sm"><strong className="text-gray-700">Income:</strong> <span className="text-gray-900">{customer.income}</span></p>
+              <p className="text-sm"><strong className="text-gray-700">Gender:</strong> <span className="text-gray-900">{customer.gender}</span></p>
+            </div>
+          </div>
 
-      <div className="uploaded-files">
-        <h3>Uploaded Files</h3>
-        {customer.aadhaarFiles?.frontUrl && (
-          <div>
-            <strong>Aadhaar Front:</strong>
-            <img src={customer.aadhaarFiles.frontUrl} alt="Aadhaar Front" width="200" />
-          </div>
-        )}
-        {customer.aadhaarFiles?.backUrl && (
-          <div>
-            <strong>Aadhaar Back:</strong>
-            <img src={customer.aadhaarFiles.backUrl} alt="Aadhaar Back" width="200" />
-          </div>
-        )}
-        {customer.panFile && (
-          <div>
-            <strong>PAN:</strong>
-            <img src={customer.panFile} alt="PAN" width="200" />
-          </div>
-        )}
-        {customer.selfie && (
-          <div>
-            <strong>Selfie:</strong>
-            <img src={customer.selfie} alt="Selfie" width="200" />
-          </div>
-        )}
-        {customer.incomeProofFiles?.map((file, index) => (
-          <div key={index}>
-            <strong>Income Proof {index + 1}:</strong>
-            <img src={file} alt={`Income Proof ${index + 1}`} width="200" />
-          </div>
-        ))}
-      </div>
-
-      <div className="call-history">
-        <h3>Call History</h3>
-        <button onClick={() => setShowCallForm(!showCallForm)}>
-          {showCallForm ? 'Cancel' : 'Add Call History'}
-        </button>
-        {showCallForm && (
-          <CallHistoryForm customerId={id} onAdded={handleCallHistoryAdded} />
-        )}
-        <ul>
-          {callHistories.map(call => (
-            <li key={call._id}>
-              <p><strong>Date:</strong> {new Date(call.callTime).toLocaleString()}</p>
-              <p><strong>Agent:</strong> {call.agentId?.agentName}</p>
-              <p><strong>Interested:</strong> {call.interested ? 'Yes' : 'No'}</p>
-              <p><strong>Disposition:</strong> {call.disposition}</p>
-              <p><strong>Attended:</strong> {call.attended ? 'Yes' : 'No'}</p>
-              <p><strong>Notes:</strong> {call.notes}</p>
-              {call.nextCallDateTime && (
-                <p><strong>Next Call:</strong> {new Date(call.nextCallDateTime).toLocaleString()}</p>
+          <div className="uploaded-files mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Uploaded Files</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {customer.aadhaarFiles?.frontUrl && (
+                <div className="bg-gray-50 p-4 rounded-md">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Aadhaar Front:</p>
+                  <img src={customer.aadhaarFiles.frontUrl} alt="Aadhaar Front" className="w-full h-32 object-cover rounded-md" />
+                </div>
               )}
-            </li>
-          ))}
-        </ul>
+              {customer.aadhaarFiles?.backUrl && (
+                <div className="bg-gray-50 p-4 rounded-md">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Aadhaar Back:</p>
+                  <img src={customer.aadhaarFiles.backUrl} alt="Aadhaar Back" className="w-full h-32 object-cover rounded-md" />
+                </div>
+              )}
+              {customer.panFile && (
+                <div className="bg-gray-50 p-4 rounded-md">
+                  <p className="text-sm font-medium text-gray-700 mb-2">PAN:</p>
+                  <img src={customer.panFile} alt="PAN" className="w-full h-32 object-cover rounded-md" />
+                </div>
+              )}
+              {customer.selfie && (
+                <div className="bg-gray-50 p-4 rounded-md">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Selfie:</p>
+                  <img src={customer.selfie} alt="Selfie" className="w-full h-32 object-cover rounded-md" />
+                </div>
+              )}
+              {customer.incomeProofFiles?.map((file, index) => (
+                <div key={index} className="bg-gray-50 p-4 rounded-md">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Income Proof {index + 1}:</p>
+                  <img src={file} alt={`Income Proof ${index + 1}`} className="w-full h-32 object-cover rounded-md" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="call-history">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+              <h3 className="text-lg font-medium text-gray-900">Call History</h3>
+              <button
+                onClick={() => setShowCallForm(!showCallForm)}
+                className="mt-2 sm:mt-0 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                {showCallForm ? 'Cancel' : 'Add Call History'}
+              </button>
+            </div>
+            {showCallForm && (
+              <div className="mb-6">
+                <CallHistoryForm customerId={id} onAdded={handleCallHistoryAdded} />
+              </div>
+            )}
+            <div className="space-y-4">
+              {callHistories.map(call => (
+                <div key={call._id} className="bg-gray-50 p-4 rounded-md">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <p className="text-sm"><strong className="text-gray-700">Date:</strong> <span className="text-gray-900">{new Date(call.callTime).toLocaleString()}</span></p>
+                      <p className="text-sm"><strong className="text-gray-700">Agent:</strong> <span className="text-gray-900">{call.agentId?.agentName}</span></p>
+                      <p className="text-sm"><strong className="text-gray-700">Interested:</strong> <span className="text-gray-900">{call.interested ? 'Yes' : 'No'}</span></p>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm"><strong className="text-gray-700">Disposition:</strong> <span className="text-gray-900">{call.disposition}</span></p>
+                      <p className="text-sm"><strong className="text-gray-700">Attended:</strong> <span className="text-gray-900">{call.attended ? 'Yes' : 'No'}</span></p>
+                      {call.nextCallDateTime && (
+                        <p className="text-sm"><strong className="text-gray-700">Next Call:</strong> <span className="text-gray-900">{new Date(call.nextCallDateTime).toLocaleString()}</span></p>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-sm mt-2"><strong className="text-gray-700">Notes:</strong> <span className="text-gray-900">{call.notes}</span></p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

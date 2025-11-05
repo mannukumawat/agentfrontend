@@ -86,177 +86,219 @@ const CustomerForm = () => {
   };
 
   return (
-    <div className="customer-form">
-      <h2>{isEdit ? 'Edit Customer' : 'Create Customer'}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Customer Name:</label>
-          <input
-            name="customerName"
-            value={formData.customerName}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+    <div className="bg-white shadow rounded-lg">
+      <div className="px-4 py-5 sm:p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">{isEdit ? 'Edit Customer' : 'Create Customer'}</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name:</label>
+              <input
+                name="customerName"
+                value={formData.customerName}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-        <div>
-          <label>Mobile Numbers:</label>
-          {formData.mobileNumbers.map((mobile, index) => (
-            <input
-              key={index}
-              value={mobile}
-              onChange={(e) => handleArrayChange('mobileNumbers', index, e.target.value)}
-            />
-          ))}
-          <button type="button" onClick={() => addArrayField('mobileNumbers')}>Add Mobile</button>
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Credit Score:</label>
+              <input
+                name="creditScore"
+                type="number"
+                value={formData.creditScore}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>Emails:</label>
-          {formData.emails.map((email, index) => (
-            <input
-              key={index}
-              type="email"
-              value={email}
-              onChange={(e) => handleArrayChange('emails', index, e.target.value)}
-            />
-          ))}
-          <button type="button" onClick={() => addArrayField('emails')}>Add Email</button>
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Numbers:</label>
+            {formData.mobileNumbers.map((mobile, index) => (
+              <input
+                key={index}
+                value={mobile}
+                onChange={(e) => handleArrayChange('mobileNumbers', index, e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+              />
+            ))}
+            <button type="button" onClick={() => addArrayField('mobileNumbers')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm">
+              Add Mobile
+            </button>
+          </div>
 
-        <div>
-          <label>Credit Score:</label>
-          <input
-            name="creditScore"
-            type="number"
-            value={formData.creditScore}
-            onChange={handleInputChange}
-          />
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Emails:</label>
+            {formData.emails.map((email, index) => (
+              <input
+                key={index}
+                type="email"
+                value={email}
+                onChange={(e) => handleArrayChange('emails', index, e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+              />
+            ))}
+            <button type="button" onClick={() => addArrayField('emails')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm">
+              Add Email
+            </button>
+          </div>
 
-        <div>
-          <label>Address:</label>
-          <textarea
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Address:</label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="3"
+              />
+            </div>
 
-        <div>
-          <label>Pin Code:</label>
-          <input
-            name="pinCode"
-            value={formData.pinCode}
-            onChange={handleInputChange}
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Pin Code:</label>
+              <input
+                name="pinCode"
+                value={formData.pinCode}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>Gender:</label>
-          <select name="gender" value={formData.gender} onChange={handleInputChange}>
-            <option value="">Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Gender:</label>
+              <select name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
 
-        <div>
-          <label>Occupation:</label>
-          <select name="occupation" value={formData.occupation} onChange={handleInputChange}>
-            <option value="">Select</option>
-            <option value="salary">Salary</option>
-            <option value="non-salary">Non-Salary</option>
-            <option value="business">Business</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Occupation:</label>
+              <select name="occupation" value={formData.occupation} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Select</option>
+                <option value="salary">Salary</option>
+                <option value="non-salary">Non-Salary</option>
+                <option value="business">Business</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
 
-        <div>
-          <label>Income:</label>
-          <input
-            name="income"
-            type="number"
-            value={formData.income}
-            onChange={handleInputChange}
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Income:</label>
+              <input
+                name="income"
+                type="number"
+                value={formData.income}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>Date of Birth:</label>
-          <input
-            name="dob"
-            type="date"
-            value={formData.dob}
-            onChange={handleInputChange}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth:</label>
+              <input
+                name="dob"
+                type="date"
+                value={formData.dob}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-        <div>
-          <label>Aadhaar Number:</label>
-          <input
-            name="aadhaarNumber"
-            value={formData.aadhaarNumber}
-            onChange={handleInputChange}
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Aadhaar Number:</label>
+              <input
+                name="aadhaarNumber"
+                value={formData.aadhaarNumber}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>PAN Number:</label>
-          <input
-            name="panNumber"
-            value={formData.panNumber}
-            onChange={handleInputChange}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">PAN Number:</label>
+              <input
+                name="panNumber"
+                value={formData.panNumber}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>Aadhaar Front:</label>
-          <input
-            type="file"
-            onChange={(e) => handleFileChange('aadhaarFiles.frontUrl', e.target.files[0])}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Aadhaar Front:</label>
+              <input
+                type="file"
+                onChange={(e) => handleFileChange('aadhaarFiles.frontUrl', e.target.files[0])}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-        <div>
-          <label>Aadhaar Back:</label>
-          <input
-            type="file"
-            onChange={(e) => handleFileChange('aadhaarFiles.backUrl', e.target.files[0])}
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Aadhaar Back:</label>
+              <input
+                type="file"
+                onChange={(e) => handleFileChange('aadhaarFiles.backUrl', e.target.files[0])}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>PAN File:</label>
-          <input
-            type="file"
-            onChange={(e) => handleFileChange('panFile', e.target.files[0])}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">PAN File:</label>
+              <input
+                type="file"
+                onChange={(e) => handleFileChange('panFile', e.target.files[0])}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-        <div>
-          <label>Selfie:</label>
-          <input
-            type="file"
-            onChange={(e) => handleFileChange('selfie', e.target.files[0])}
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Selfie:</label>
+              <input
+                type="file"
+                onChange={(e) => handleFileChange('selfie', e.target.files[0])}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label>Income Proof Files:</label>
-          {formData.incomeProofFiles.map((file, index) => (
-            <input
-              key={index}
-              type="file"
-              onChange={(e) => handleFileChange(`incomeProofFiles.${index}`, e.target.files[0])}
-            />
-          ))}
-          <button type="button" onClick={() => addArrayField('incomeProofFiles')}>Add File</button>
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Income Proof Files:</label>
+            {formData.incomeProofFiles.map((file, index) => (
+              <input
+                key={index}
+                type="file"
+                onChange={(e) => handleFileChange(`incomeProofFiles.${index}`, e.target.files[0])}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+              />
+            ))}
+            <button type="button" onClick={() => addArrayField('incomeProofFiles')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm">
+              Add File
+            </button>
+          </div>
 
-        <button type="submit">{isEdit ? 'Update' : 'Create'} Customer</button>
-      </form>
+          <div className="flex justify-end">
+            <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              {isEdit ? 'Update' : 'Create'} Customer
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

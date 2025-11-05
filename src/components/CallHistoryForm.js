@@ -25,61 +25,80 @@ const CallHistoryForm = ({ customerId, onAdded }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="call-history-form">
-      <div>
-        <label>
+    <div className="bg-gray-50 p-4 rounded-md">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="attended"
+              name="attended"
+              checked={formData.attended}
+              onChange={handleChange}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label htmlFor="attended" className="ml-2 block text-sm text-gray-900">
+              Attended
+            </label>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="interested"
+              name="interested"
+              checked={formData.interested}
+              onChange={handleChange}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label htmlFor="interested" className="ml-2 block text-sm text-gray-900">
+              Interested
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="disposition" className="block text-sm font-medium text-gray-700 mb-1">Disposition:</label>
           <input
-            type="checkbox"
-            name="attended"
-            checked={formData.attended}
+            id="disposition"
+            name="disposition"
+            value={formData.disposition}
             onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          Attended
-        </label>
-      </div>
+        </div>
 
-      <div>
-        <label>
+        <div>
+          <label htmlFor="nextCallDateTime" className="block text-sm font-medium text-gray-700 mb-1">Next Call Date & Time:</label>
           <input
-            type="checkbox"
-            name="interested"
-            checked={formData.interested}
+            id="nextCallDateTime"
+            type="datetime-local"
+            name="nextCallDateTime"
+            value={formData.nextCallDateTime}
             onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          Interested
-        </label>
-      </div>
+        </div>
 
-      <div>
-        <label>Disposition:</label>
-        <input
-          name="disposition"
-          value={formData.disposition}
-          onChange={handleChange}
-        />
-      </div>
+        <div>
+          <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">Notes:</label>
+          <textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            rows="4"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-      <div>
-        <label>Next Call Date & Time:</label>
-        <input
-          type="datetime-local"
-          name="nextCallDateTime"
-          value={formData.nextCallDateTime}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label>Notes:</label>
-        <textarea
-          name="notes"
-          value={formData.notes}
-          onChange={handleChange}
-        />
-      </div>
-
-      <button type="submit">Add Call History</button>
-    </form>
+        <div className="flex justify-end">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add Call History
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
