@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { UserPlus, Users, LogOut, UserCog, User } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [agents, setAgents] = useState([]);
@@ -41,117 +42,157 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gray-100">
+      {/* Top Header */}
+      <header className="bg-white shadow sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            <UserCog className="w-6 h-6 text-blue-600" />
+            Admin Dashboard
+          </h1>
+          
+        </div>
+      </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Dashboard Content */}
+      <main className="max-w-7xl mx-auto py-8 px-6 space-y-8">
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-white shadow-md rounded-xl p-6 flex items-center justify-between hover:shadow-lg transition">
             <div>
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Agents</h2>
-              <button
-                onClick={() => setShowAgentForm(!showAgentForm)}
-                className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                {showAgentForm ? 'Cancel' : 'Create Agent'}
-              </button>
-              {showAgentForm && (
-                <form onSubmit={handleCreateAgent} className="space-y-4">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Agent Name"
-                      value={agentForm.agentName}
-                      onChange={(e) => setAgentForm({...agentForm, agentName: e.target.value})}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Agent ID"
-                      value={agentForm.agentId}
-                      onChange={(e) => setAgentForm({...agentForm, agentId: e.target.value})}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      value={agentForm.email}
-                      onChange={(e) => setAgentForm({...agentForm, email: e.target.value})}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Mobile"
-                      value={agentForm.mobile}
-                      onChange={(e) => setAgentForm({...agentForm, mobile: e.target.value})}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      value={agentForm.password}
-                      onChange={(e) => setAgentForm({...agentForm, password: e.target.value})}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <button type="submit" className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Create
-                  </button>
-                </form>
-              )}
-              <ul className="space-y-2">
-                {agents.map(agent => (
-                  <li key={agent._id} className="bg-gray-50 p-3 rounded-md">
-                    {agent.agentName} ({agent.agentId})
-                  </li>
-                ))}
-              </ul>
+              <p className="text-gray-500 text-sm">Total Agents</p>
+              <p className="text-2xl font-bold text-gray-800">{agents.length}</p>
             </div>
+            <div className="bg-blue-100 p-3 rounded-lg">
+              <User className="text-blue-600 w-6 h-6" />
+            </div>
+          </div>
 
+          <div className="bg-white shadow-md rounded-xl p-6 flex items-center justify-between hover:shadow-lg transition">
             <div>
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Customers</h2>
-              <div className="space-x-2 mb-4">
-                <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                  Create Customer
-                </Link>
-                <Link to="/customers" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  View All Customers
-                </Link>
-              </div>
-              <ul className="space-y-2">
-                {customers.slice(0, 10).map(customer => (
-                  <li key={customer._id} className="bg-gray-50 p-3 rounded-md flex justify-between items-center">
-                    <span>{customer.customerName}</span>
-                    <select
-                      value={customer.assignedAgentId?._id || ''}
-                      onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
-                      className="ml-2 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="">Unassigned</option>
-                      {agents.map(agent => (
-                        <option key={agent._id} value={agent._id}>{agent.agentName}</option>
-                      ))}
-                    </select>
-                  </li>
-                ))}
-              </ul>
+              <p className="text-gray-500 text-sm">Total Customers</p>
+              <p className="text-2xl font-bold text-gray-800">{customers.length}</p>
+            </div>
+            <div className="bg-green-100 p-3 rounded-lg">
+              <Users className="text-green-600 w-6 h-6" />
+            </div>
+          </div>
+
+          <div className="bg-white shadow-md rounded-xl p-6 flex items-center justify-between hover:shadow-lg transition">
+            <div>
+              <p className="text-gray-500 text-sm">Unassigned Customers</p>
+              <p className="text-2xl font-bold text-gray-800">
+                {customers.filter(c => !c.assignedAgentId).length}
+              </p>
+            </div>
+            <div className="bg-yellow-100 p-3 rounded-lg">
+              <UserPlus className="text-yellow-600 w-6 h-6" />
             </div>
           </div>
         </div>
-      </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Agents Section */}
+          <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <User className="w-5 h-5 text-blue-600" />
+                Agents
+              </h2>
+              <button
+                onClick={() => setShowAgentForm(!showAgentForm)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
+              >
+                {showAgentForm ? 'Cancel' : 'Create Agent'}
+              </button>
+            </div>
+
+            {showAgentForm && (
+              <form onSubmit={handleCreateAgent} className="space-y-3 bg-gray-50 p-4 rounded-md">
+                {['agentName', 'agentId', 'email', 'mobile', 'password'].map((field, i) => (
+                  <input
+                    key={i}
+                    type={field === 'password' ? 'password' : 'text'}
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                    value={agentForm[field]}
+                    onChange={(e) => setAgentForm({ ...agentForm, [field]: e.target.value })}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  />
+                ))}
+                <button
+                  type="submit"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md font-medium transition"
+                >
+                  Create Agent
+                </button>
+              </form>
+            )}
+
+            <ul className="divide-y divide-gray-200">
+              {agents.map(agent => (
+                <li key={agent._id} className="py-3 flex justify-between items-center">
+                  <div>
+                    <p className="font-medium text-gray-800">{agent.agentName}</p>
+                    <p className="text-sm text-gray-500">{agent.email}</p>
+                  </div>
+                  <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
+                    {agent.agentId}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Customers Section */}
+          <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <Users className="w-5 h-5 text-green-600" />
+                Customers
+              </h2>
+              <div className="space-x-2">
+                <Link
+                  to="/customers/new"
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition"
+                >
+                  New
+                </Link>
+                <Link
+                  to="/customers"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
+                >
+                  View All
+                </Link>
+              </div>
+            </div>
+
+            <ul className="divide-y divide-gray-200">
+              {customers.slice(0, 10).map(customer => (
+                <li key={customer._id} className="py-3 flex justify-between items-center">
+                  <div>
+                    <p className="font-medium text-gray-800">{customer.customerName}</p>
+                    <p className="text-sm text-gray-500">{customer.email}</p>
+                  </div>
+                  <select
+                    value={customer.assignedAgentId?._id || ''}
+                    onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
+                    className="ml-2 px-2 py-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Unassigned</option>
+                    {agents.map(agent => (
+                      <option key={agent._id} value={agent._id}>
+                        {agent.agentName}
+                      </option>
+                    ))}
+                  </select>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
