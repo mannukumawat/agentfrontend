@@ -62,7 +62,7 @@ function App() {
                 <Route
                 path="/agents"
                 element={
-                  <PrivateRoute>
+                  <PrivateRoute allowedRoles={['admin']}>
                     <AgentsCreateanddetails />
                   </PrivateRoute>
                 }
@@ -70,7 +70,7 @@ function App() {
               <Route
                 path="/customers/new"
                 element={
-                  <PrivateRoute>
+                  <PrivateRoute allowedRoles={['admin']}>
                     <CustomerForm />
                   </PrivateRoute>
                 }
@@ -86,7 +86,7 @@ function App() {
               <Route
                 path="/customers/:id/edit"
                 element={
-                  <PrivateRoute>
+                  <PrivateRoute allowedRoles={['admin']}>
                     <CustomerForm />
                   </PrivateRoute>
                 }

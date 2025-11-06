@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import CallHistoryForm from './CallHistoryForm';
+import { useAuth } from '../context/AuthContext';
 
 const CustomerDetail = () => {
   const [customer, setCustomer] = useState(null);
   const [callHistories, setCallHistories] = useState([]);
   const [showCallForm, setShowCallForm] = useState(false);
   const { id } = useParams();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchCustomer();
@@ -37,9 +39,11 @@ const CustomerDetail = () => {
         <div className="px-4 py-5 sm:p-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 mt-10">
             <h2 className="text-2xl font-bold text-gray-900">{customer.customerName}</h2>
-            <Link to={`/customers/${id}/edit`} className="mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Edit Customer
-            </Link>
+            {user?.role === 'admin' && (
+              <Link to={`/customers/${id}/edit`} className="mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Edit Customer
+              </Link>
+            )}
           </div>
 
           <div className="customer-info grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

@@ -48,7 +48,10 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center space-x-6 text-black">
             <Link to="/customers" className="hover:text-gray-600">Customers</Link>
-            <Link to="/agents" className="hover:text-gray-600">Agent</Link>
+            {user.role === "admin" && (
+              <Link to="/agents" className="hover:text-gray-600">Agent</Link>
+            )}
+          
             <Link to="/profile" className="hover:text-gray-600">Profile</Link>
             <span className="font-medium">{dateTime}</span>
             <button
@@ -64,7 +67,9 @@ export default function Navbar() {
         {menuOpen && (
           <div className="md:hidden flex flex-col space-y-2 pb-4 text-black">
             <Link to="/customers" className="hover:text-gray-600">Customers</Link>
-            <Link to="/agents" className="hover:text-gray-600">Agent</Link>
+            {user.role === "admin" && (
+              <Link to="/agents" className="hover:text-gray-600">Agent</Link>
+            )}
             <Link to="/profile" className="hover:text-gray-600">Profile</Link>
             <span className="font-medium">{dateTime}</span>
             <button

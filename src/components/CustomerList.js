@@ -13,8 +13,10 @@ const CustomerList = () => {
 
   useEffect(() => {
     fetchCustomers();
-    fetchAgents();
-  }, [currentPage, filters]);
+    if (user.role === 'admin') {
+      fetchAgents();
+    }
+  }, [currentPage, filters, user.role]);
 
   const fetchCustomers = async () => {
     const params = { page: currentPage, ...filters };
@@ -66,9 +68,11 @@ const CustomerList = () => {
         </div>
 
         <div className="mb-4">
-          <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            Create New Customer
-          </Link>
+          {user.role === 'admin' && (
+            <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Create New Customer
+            </Link>
+          )}
         </div>
 
         {/* Desktop Table */}
@@ -103,21 +107,33 @@ const CustomerList = () => {
 
                   {/* Assign Agent Dropdown */}
                   <td className="px-6 py-4">
-                    <select
-                      value={customer.assignedAgentId?._id || ''}
-                      onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
-                      className="px-2 py-1 border rounded-md"
-                    >
-                      <option value="">Unassigned</option>
-                      {agents.map(agent => (
-                        <option key={agent._id} value={agent._id}>{agent.agentName}</option>
-                      ))}
-                    </select>
+                    {user.role === 'admin' ? (
+                      <select
+                        value={customer.assignedAgentId?._id || ''}
+                        onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
+                        className="px-2 py-1 border rounded-md"
+                      >
+                        <option value="">Unassigned</option>
+                        {agents.map(agent => (
+                          <option key={agent._id} value={agent._id}>{agent.agentName}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <select
+                        value={customer.assignedAgentId?._id || ''}
+                        disabled
+                        className="px-2 py-1 border rounded-md bg-gray-100 text-gray-600"
+                      >
+                        <option value="">{customer.assignedAgentId?.agentName || 'Unassigned'}</option>
+                      </select>
+                    )}
                   </td>
 
                   <td className="px-6 py-4">
                     <Link to={`/customers/${customer._id}`} className="text-blue-600 mr-4">View</Link>
-                    <Link to={`/customers/${customer._id}/edit`} className="text-yellow-600">Edit</Link>
+                    {user.role === 'admin' && (
+                      <Link to={`/customers/${customer._id}/edit`} className="text-yellow-600">Edit</Link>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -147,25 +163,37 @@ const CustomerList = () => {
               {/* Assign Agent */}
               <div className="mt-3">
                 <label className="text-sm text-gray-700 font-medium">Assign Agent:</label>
-                <select
-                  value={customer.assignedAgentId?._id || ''}
-                  onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
-                  className="mt-1 w-full px-2 py-2 border border-gray-300 rounded-md"
-                >
-                  <option value="">Unassigned</option>
-                  {agents.map(agent => (
-                    <option key={agent._id} value={agent._id}>{agent.agentName}</option>
-                  ))}
-                </select>
+                {user.role === 'admin' ? (
+                  <select
+                    value={customer.assignedAgentId?._id || ''}
+                    onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
+                    className="mt-1 w-full px-2 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="">Unassigned</option>
+                    {agents.map(agent => (
+                      <option key={agent._id} value={agent._id}>{agent.agentName}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <select
+                    value={customer.assignedAgentId?._id || ''}
+                    disabled
+                    className="mt-1 w-full px-2 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600"
+                  >
+                    <option value="">{customer.assignedAgentId?.agentName || 'Unassigned'}</option>
+                  </select>
+                )}
               </div>
 
               <div className="mt-3 flex gap-2">
                 <Link to={`/customers/${customer._id}`} className="bg-blue-500 text-white py-1 px-3 rounded text-sm">
                   View
                 </Link>
-                <Link to={`/customers/${customer._id}/edit`} className="bg-yellow-500 text-white py-1 px-3 rounded text-sm">
-                  Edit
-                </Link>
+                {user.role === 'admin' && (
+                  <Link to={`/customers/${customer._id}/edit`} className="bg-yellow-500 text-white py-1 px-3 rounded text-sm">
+                    Edit
+                  </Link>
+                )}
               </div>
 
             </div>
