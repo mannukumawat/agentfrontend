@@ -11,8 +11,6 @@ const AdminDashboard = () => {
           </h1>
         </div>
       </header>
-
-      
     </div>
   );
 };
