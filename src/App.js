@@ -10,6 +10,7 @@ import CustomerDetail from './components/CustomerDetail';
 import Navbar from './components/Navbar';
 import './App.css';
 import AgentsCreateanddetails from './components/agentDetails';
+import Profile from './components/Profile';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useAuth();
@@ -87,6 +88,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <CustomerForm />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
                   </PrivateRoute>
                 }
               />
