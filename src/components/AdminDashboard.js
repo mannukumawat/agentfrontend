@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { UserPlus, Users,  UserCog, User } from 'lucide-react';
+import { UserPlus, Users,  UserCog } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [agents, setAgents] = useState([]);
@@ -44,16 +44,6 @@ const AdminDashboard = () => {
       <main className="max-w-7xl mx-auto py-8 px-6 space-y-8">
         {/* Stats Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white shadow-md rounded-xl p-6 flex items-center justify-between hover:shadow-lg transition">
-            <div>
-              <p className="text-gray-500 text-sm">Total Agents</p>
-              <p className="text-2xl font-bold text-gray-800">{agents.length}</p>
-            </div>
-            <div className="bg-blue-100 p-3 rounded-lg">
-              <User className="text-blue-600 w-6 h-6" />
-            </div>
-          </div>
-
           <div className="bg-white shadow-md rounded-xl p-6 flex items-center justify-between hover:shadow-lg transition">
             <div>
               <p className="text-gray-500 text-sm">Total Customers</p>

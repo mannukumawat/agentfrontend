@@ -32,10 +32,10 @@ const CustomerDetail = () => {
   if (!customer) return <div className="flex justify-center items-center h-64"><div className="text-lg text-gray-600">Loading...</div></div>;
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white shadow rounded-lg">
+    <div className="space-y-6 ">
+      <div className="bg-white shadow rounded-lg ">
         <div className="px-4 py-5 sm:p-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 mt-10">
             <h2 className="text-2xl font-bold text-gray-900">{customer.customerName}</h2>
             <Link to={`/customers/${id}/edit`} className="mt-2 sm:mt-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Edit Customer
