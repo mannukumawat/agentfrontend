@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { UserPlus, Users, LogOut, UserCog, User } from 'lucide-react';
+import { UserPlus, Users,  UserCog, User } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [agents, setAgents] = useState([]);
   const [customers, setCustomers] = useState([]);
-  const [showAgentForm, setShowAgentForm] = useState(false);
-  const [agentForm, setAgentForm] = useState({
-    agentName: '', agentId: '', email: '', mobile: '', password: ''
-  });
-  const { logout } = useAuth();
-
   useEffect(() => {
     fetchAgents();
     fetchCustomers();
@@ -28,13 +21,6 @@ const AdminDashboard = () => {
     setCustomers(res.data.customers);
   };
 
-  const handleCreateAgent = async (e) => {
-    e.preventDefault();
-    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/agents`, agentForm);
-    setAgentForm({ agentName: '', agentId: '', email: '', mobile: '', password: '' });
-    setShowAgentForm(false);
-    fetchAgents();
-  };
 
   const handleAssignCustomer = async (customerId, agentId) => {
     await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers/${customerId}/assign`, { agentId });
@@ -93,57 +79,7 @@ const AdminDashboard = () => {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Agents Section */}
-          <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                <User className="w-5 h-5 text-blue-600" />
-                Agents
-              </h2>
-              <button
-                onClick={() => setShowAgentForm(!showAgentForm)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition"
-              >
-                {showAgentForm ? 'Cancel' : 'Create Agent'}
-              </button>
-            </div>
-
-            {showAgentForm && (
-              <form onSubmit={handleCreateAgent} className="space-y-3 bg-gray-50 p-4 rounded-md">
-                {['agentName', 'agentId', 'email', 'mobile', 'password'].map((field, i) => (
-                  <input
-                    key={i}
-                    type={field === 'password' ? 'password' : 'text'}
-                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                    value={agentForm[field]}
-                    onChange={(e) => setAgentForm({ ...agentForm, [field]: e.target.value })}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  />
-                ))}
-                <button
-                  type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md font-medium transition"
-                >
-                  Create Agent
-                </button>
-              </form>
-            )}
-
-            <ul className="divide-y divide-gray-200">
-              {agents.map(agent => (
-                <li key={agent._id} className="py-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-medium text-gray-800">{agent.agentName}</p>
-                    <p className="text-sm text-gray-500">{agent.email}</p>
-                  </div>
-                  <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
-                    {agent.agentId}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+      
 
           {/* Customers Section */}
           <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
