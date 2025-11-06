@@ -9,6 +9,7 @@ import CustomerForm from './components/CustomerForm';
 import CustomerDetail from './components/CustomerDetail';
 import Navbar from './components/Navbar';
 import './App.css';
+import AgentsCreateanddetails from './components/agentDetails';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useAuth();
@@ -54,6 +55,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <CustomerList />
+                  </PrivateRoute>
+                }
+              /> 
+                <Route
+                path="/agents"
+                element={
+                  <PrivateRoute>
+                    <AgentsCreateanddetails />
                   </PrivateRoute>
                 }
               />
