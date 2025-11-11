@@ -144,24 +144,24 @@ const CustomerList = () => {
           )}
         </div>
 
-        <div className="mb-4 flex gap-4">
+        <div className="mb-4 flex flex-col sm:flex-row gap-4">
           {user.role === 'admin' && (
             <>
               <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Create New Customer
               </Link>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row items-center gap-2">
                 <input
                   type="file"
                   accept=".csv"
                   onChange={(e) => setSelectedFile(e.target.files[0])}
-                  className="px-3 py-2 border border-gray-300 rounded-md"
+                  className="px-3 py-2 border border-gray-300 rounded-md w-full sm:w-auto"
                 />
                 <button
                   onClick={handleFileUpload}
                   disabled={isUploading}
-                  className={`font-bold py-2 px-4 rounded ${
+                  className={`font-bold py-2 px-4 rounded w-full sm:w-auto ${
                     isUploading
                       ? 'bg-gray-500 cursor-not-allowed text-gray-300'
                       : 'bg-blue-500 hover:bg-blue-700 text-white'
@@ -175,7 +175,7 @@ const CustomerList = () => {
         </div>
 
         {/* View Mode Tabs */}
-        <div className="mb-4 flex gap-2">
+        <div className="mb-4 flex flex-col sm:flex-row gap-2">
           <button
             onClick={() => setViewMode('table')}
             className={`px-4 py-2 rounded ${
@@ -196,7 +196,7 @@ const CustomerList = () => {
 
         {/* Conditional Rendering based on viewMode */}
         {viewMode === 'table' && (
-          <div>
+          <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
