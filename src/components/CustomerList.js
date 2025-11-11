@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -10,6 +12,7 @@ const CustomerList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({ pinCode: '', agentId: '' });
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -47,10 +50,11 @@ const CustomerList = () => {
 
   const handleFileUpload = async () => {
     if (!selectedFile) {
-      alert('Please select a CSV file to upload.');
+      toast.error('Please select a CSV file to upload.');
       return;
     }
 
+    setIsUploading(true);
     const formData = new FormData();
     formData.append('csvFile', selectedFile);
 
@@ -60,11 +64,13 @@ const CustomerList = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert(res.data.message);
+      toast.success(res.data.message);
       setSelectedFile(null);
       fetchCustomers();
     } catch (error) {
-      alert('Error uploading CSV: ' + error.response?.data?.message || error.message);
+      toast.error('Error uploading CSV: ' + error.response?.data?.message || error.message);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -102,8 +108,10 @@ const CustomerList = () => {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg mt-12">
-      <div className="px-4 py-5 sm:p-6">
+    <>
+      <ToastContainer />
+      <div className="bg-white shadow rounded-lg mt-12">
+        <div className="px-4 py-5 sm:p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Customers</h2>
 
         {/* Filters */}
@@ -141,9 +149,14 @@ const CustomerList = () => {
                 />
                 <button
                   onClick={handleFileUpload}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  disabled={isUploading}
+                  className={`font-bold py-2 px-4 rounded ${
+                    isUploading
+                      ? 'bg-gray-500 cursor-not-allowed text-gray-300'
+                      : 'bg-blue-500 hover:bg-blue-700 text-white'
+                  }`}
                 >
-                  Upload CSV
+                  {isUploading ? 'Uploading...' : 'Upload CSV'}
                 </button>
               </div>
             </>
@@ -274,8 +287,9 @@ const CustomerList = () => {
           {renderSmartPagination()}
         </div>
 
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
