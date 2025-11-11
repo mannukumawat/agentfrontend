@@ -39,6 +39,16 @@ const CustomerList = () => {
     fetchCustomers();
   };
 
+  const handleUnassignCustomer = async (customerId) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers/${customerId}/unassign`);
+      toast.success('Customer unassigned successfully');
+      fetchCustomers();
+    } catch (error) {
+      toast.error('Error unassigning customer: ' + error.response?.data?.message || error.message);
+    }
+  };
+
   const handleFilterChange = (key, value) => {
     setFilters({ ...filters, [key]: value });
     setCurrentPage(1);
@@ -195,7 +205,7 @@ const CustomerList = () => {
                     {user.role === 'admin' ? (
                       <select
                         value={customer.assignedAgentId?._id || ''}
-                        onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
+                        onChange={(e) => e.target.value === '' ? handleUnassignCustomer(customer._id) : handleAssignCustomer(customer._id, e.target.value)}
                         className="px-2 py-1 border rounded-md"
                       >
                         <option value="">Unassigned</option>
@@ -248,7 +258,7 @@ const CustomerList = () => {
                 {user.role === 'admin' ? (
                   <select
                     value={customer.assignedAgentId?._id || ''}
-                    onChange={(e) => handleAssignCustomer(customer._id, e.target.value)}
+                    onChange={(e) => e.target.value === '' ? handleUnassignCustomer(customer._id) : handleAssignCustomer(customer._id, e.target.value)}
                     className="mt-1 w-full px-2 py-2 border border-gray-300 rounded-md"
                   >
                     <option value="">Unassigned</option>
