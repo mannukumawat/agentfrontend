@@ -9,6 +9,7 @@ const CustomerList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({ pinCode: '', agentId: '' });
+  const [selectedFile, setSelectedFile] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -44,6 +45,62 @@ const CustomerList = () => {
     setCurrentPage(page);
   };
 
+  const handleFileUpload = async () => {
+    if (!selectedFile) {
+      alert('Please select a CSV file to upload.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('csvFile', selectedFile);
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers/upload-csv`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert(res.data.message);
+      setSelectedFile(null);
+      fetchCustomers();
+    } catch (error) {
+      alert('Error uploading CSV: ' + error.response?.data?.message || error.message);
+    }
+  };
+
+  // ✅ Smart Pagination Function
+  const renderSmartPagination = () => {
+    const pages = [];
+    const start = Math.max(1, currentPage - 2);
+    const end = Math.min(totalPages, currentPage + 2);
+
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) pages.push("...");
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < totalPages) {
+      if (end < totalPages - 1) pages.push("...");
+      pages.push(totalPages);
+    }
+
+    return pages.map((page, idx) => (
+      <button
+        key={idx}
+        onClick={() => page !== "..." && handlePageChange(page)}
+        disabled={page === "..." || page === currentPage}
+        className={`px-3 py-1 rounded 
+          ${page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+      >
+        {page}
+      </button>
+    ));
+  };
+
   return (
     <div className="bg-white shadow rounded-lg mt-12">
       <div className="px-4 py-5 sm:p-6">
@@ -57,6 +114,7 @@ const CustomerList = () => {
             onChange={(e) => handleFilterChange('pinCode', e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md"
           />
+
           {user.role === 'admin' && (
             <input
               placeholder="Filter by Agent ID"
@@ -67,11 +125,28 @@ const CustomerList = () => {
           )}
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 flex gap-4">
           {user.role === 'admin' && (
-            <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Create New Customer
-            </Link>
+            <>
+              <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Create New Customer
+              </Link>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => setSelectedFile(e.target.files[0])}
+                  className="px-3 py-2 border border-gray-300 rounded-md"
+                />
+                <button
+                  onClick={handleFileUpload}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Upload CSV
+                </button>
+              </div>
+            </>
           )}
         </div>
 
@@ -93,8 +168,6 @@ const CustomerList = () => {
               {customers.map(customer => (
                 <tr key={customer._id}>
                   <td className="px-6 py-4">{customer.customerName}</td>
-
-                  {/* ✅ MOBILE NUMBER CLICK → DIALER OPEN */}
                   <td
                     className="px-6 py-4 text-blue-600 cursor-pointer"
                     onClick={() => window.location.href = `tel:${customer.mobileNumbers?.[0]}`}
@@ -105,7 +178,6 @@ const CustomerList = () => {
                   <td className="px-6 py-4">{customer.emails?.[0]}</td>
                   <td className="px-6 py-4">{customer.pinCode}</td>
 
-                  {/* Assign Agent Dropdown */}
                   <td className="px-6 py-4">
                     {user.role === 'admin' ? (
                       <select
@@ -141,15 +213,13 @@ const CustomerList = () => {
           </table>
         </div>
 
-
-        {/* ✅ MOBILE CARD VIEW */}
+        {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
           {customers.map(customer => (
             <div key={customer._id} className="bg-gray-100 p-4 rounded-md shadow-sm">
 
               <h3 className="text-lg font-semibold">{customer.customerName}</h3>
 
-              {/* ✅ Tap Mobile Number to Call */}
               <p
                 className="text-sm text-blue-600 font-medium cursor-pointer"
                 onClick={() => window.location.href = `tel:${customer.mobileNumbers?.[0]}`}
@@ -160,7 +230,6 @@ const CustomerList = () => {
               <p className="text-sm text-gray-600">📧 {customer.emails?.[0]}</p>
               <p className="text-sm text-gray-600">📍 {customer.pinCode}</p>
 
-              {/* Assign Agent */}
               <div className="mt-3">
                 <label className="text-sm text-gray-700 font-medium">Assign Agent:</label>
                 {user.role === 'admin' ? (
@@ -200,18 +269,9 @@ const CustomerList = () => {
           ))}
         </div>
 
-        {/* Pagination */}
+        {/* ✅ Smart Pagination */}
         <div className="mt-4 flex justify-center space-x-2">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              disabled={page === currentPage}
-              className={`px-3 py-1 rounded ${page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
-            >
-              {page}
-            </button>
-          ))}
+          {renderSmartPagination()}
         </div>
 
       </div>
