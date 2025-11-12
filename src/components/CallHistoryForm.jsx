@@ -20,7 +20,7 @@ const CallHistoryForm = ({ customerId, onAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/call-histories`, { ...formData, customerId });
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/call-histories`, { ...formData, customerId });
     onAdded();
   };
 

@@ -17,12 +17,12 @@ const CustomerDetail = () => {
   }, [id]);
 
   const fetchCustomer = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/customers/${id}`);
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/customers/${id}`);
     setCustomer(res.data);
   };
 
   const fetchCallHistories = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/call-histories`, { params: { customerId: id } });
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/call-histories`, { params: { customerId: id } });
     setCallHistories(res.data);
   };
 

@@ -33,7 +33,7 @@ const CustomerForm = () => {
   }, [id]);
 
   const fetchCustomer = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/customers/${id}`);
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/customers/${id}`);
     setFormData(res.data);
   };
 
@@ -59,7 +59,7 @@ const CustomerForm = () => {
   const uploadFile = async (file) => {
     const formDataUpload = new FormData();
     formDataUpload.append('file', file);
-    const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/uploads`, formDataUpload);
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/uploads`, formDataUpload);
     return res.data.fileUrl;
   };
 
@@ -79,7 +79,7 @@ const CustomerForm = () => {
     if (isEdit) {
       await axios.put(`${process.env.REACT_APP_API_BASE_URL}/customers/${id}`, customerData);
     } else {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers`, customerData);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/customers`, customerData);
     }
 
     navigate('/customers');

@@ -15,7 +15,7 @@ const AgentDashboard = () => {
 
   const fetchFollowUps = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/call-histories/all`);
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/call-histories/all`);
       if (res.data.success) {
         setData(res.data.data);
       }

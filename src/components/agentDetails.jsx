@@ -10,7 +10,7 @@ export default function AgentsPage() {
   useEffect(() => { fetchAgents(); }, []);
 
   const fetchAgents = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/agents`);
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/agents`);
     setAgents(res.data);
   };
 

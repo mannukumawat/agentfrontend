@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      axios.get(`${process.env.REACT_APP_API_BASE_URL}/auth/me`)
+      axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/me`)
         .then(res => setUser(res.data.user))
         .catch(() => localStorage.removeItem('token'))
         .finally(() => setLoading(false));
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, { email, password });
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, { email, password });
     const { token, user } = res.data;
     localStorage.setItem('token', token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

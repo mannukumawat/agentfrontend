@@ -25,24 +25,24 @@ const CustomerList = () => {
 
   const fetchCustomers = async () => {
     const params = { page: currentPage, ...filters };
-    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/customers`, { params });
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/customers`, { params });
     setCustomers(res.data.customers);
     setTotalPages(res.data.totalPages);
   };
 
   const fetchAgents = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/agents`);
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/agents`);
     setAgents(res.data);
   };
 
   const handleAssignCustomer = async (customerId, agentId) => {
-    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers/${customerId}/assign`, { agentId });
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/customers/${customerId}/assign`, { agentId });
     fetchCustomers();
   };
 
   const handleUnassignCustomer = async (customerId) => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers/${customerId}/unassign`);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/customers/${customerId}/unassign`);
       toast.success('Customer unassigned successfully');
       fetchCustomers();
     } catch (error) {
@@ -70,7 +70,7 @@ const CustomerList = () => {
     formData.append('csvFile', selectedFile);
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/customers/upload-csv`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/customers/upload-csv`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
