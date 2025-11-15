@@ -10,17 +10,16 @@ const CustomerList = () => {
   const [agents, setAgents] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState({ pinCode: '', agentId: '' });
+  const [filters, setFilters] = useState({ pinCode: '', agentId: '', customerName: '' });
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [viewMode, setViewMode] = useState('table');
+  const [totalCustomers, setTotalCustomers] = useState(0);
   const { user } = useAuth();
 
   useEffect(() => {
     fetchCustomers();
-    if (user.role === 'admin') {
-      fetchAgents();
-    }
+    fetchAgents();
   }, [currentPage, filters, user.role]);
 
   const fetchCustomers = async () => {
@@ -28,6 +27,7 @@ const CustomerList = () => {
     const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/customers`, { params });
     setCustomers(res.data.customers);
     setTotalPages(res.data.totalPages);
+    setTotalCustomers(res.data.totalCount);
   };
 
   const fetchAgents = async () => {
@@ -123,25 +123,32 @@ const CustomerList = () => {
       <ToastContainer />
       <div className="bg-white shadow rounded-lg mt-12">
         <div className="px-4 py-5 sm:p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Customers</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Customers ({totalCustomers})</h2>
 
         {/* Filters */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+          <input
+            placeholder="Filter by Customer Name"
+            value={filters.customerName}
+            onChange={(e) => handleFilterChange('customerName', e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-md"
+          />
           <input
             placeholder="Filter by Pin Code"
             value={filters.pinCode}
             onChange={(e) => handleFilterChange('pinCode', e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md"
           />
-
-          {user.role === 'admin' && (
-            <input
-              placeholder="Filter by Agent ID"
-              value={filters.agentId}
-              onChange={(e) => handleFilterChange('agentId', e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
-            />
-          )}
+          <select
+            value={filters.agentId}
+            onChange={(e) => handleFilterChange('agentId', e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-md"
+          >
+            <option value="">All Agents</option>
+            {agents.map(agent => (
+              <option key={agent._id} value={agent._id}>{agent.agentName}</option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-4 flex flex-col sm:flex-row gap-4">
@@ -203,7 +210,6 @@ const CustomerList = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium">Name</th>
                   <th className="px-6 py-3 text-left text-xs font-medium">Mobile</th>
                   <th className="px-6 py-3 text-left text-xs font-medium">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium">Pin Code</th>
                   <th className="px-6 py-3 text-left text-xs font-medium">Assign Agent</th>
                   <th className="px-6 py-3 text-left text-xs font-medium">Actions</th>
                 </tr>
@@ -221,7 +227,6 @@ const CustomerList = () => {
                     </td>
 
                     <td className="px-6 py-4">{customer.emails?.[0]}</td>
-                    <td className="px-6 py-4">{customer.pinCode}</td>
 
                     <td className="px-6 py-4">
                       {user.role === 'admin' ? (

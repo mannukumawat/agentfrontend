@@ -86,7 +86,7 @@ const CustomerForm = () => {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg">
+    <div className="bg-white shadow rounded-lg mt-10">
       <div className="px-4 py-5 sm:p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">{isEdit ? 'Edit Customer' : 'Create Customer'}</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
