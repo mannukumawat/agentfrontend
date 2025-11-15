@@ -7,6 +7,7 @@ import AgentDashboard from './components/AgentDashboard';
 import CustomerList from './components/CustomerList';
 import CustomerForm from './components/CustomerForm';
 import CustomerDetail from './components/CustomerDetail';
+import AddCallHistoryPage from './components/AddCallHistoryPage';
 import Navbar from './components/Navbar';
 import './App.css';
 import AgentsCreateanddetails from './components/agentDetails';
@@ -58,7 +59,7 @@ function App() {
                     <CustomerList />
                   </PrivateRoute>
                 }
-              /> 
+              />
                 <Route
                 path="/agents"
                 element={
@@ -88,6 +89,14 @@ function App() {
                 element={
                   <PrivateRoute allowedRoles={['admin']}>
                     <CustomerForm />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/customers/:id/add-call-history"
+                element={
+                  <PrivateRoute>
+                    <AddCallHistoryPage />
                   </PrivateRoute>
                 }
               />

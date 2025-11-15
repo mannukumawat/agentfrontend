@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 const CustomerTableView = ({ customers, agents, user, handleAssignCustomer, handleUnassignCustomer }) => {
   return (
     <div className="overflow-x-auto">
@@ -51,6 +52,9 @@ const CustomerTableView = ({ customers, agents, user, handleAssignCustomer, hand
 
               <td className="px-6 py-4">
                 <Link to={`/customers/${customer._id}`} className="text-blue-600 mr-4">View</Link>
+                <Link to={`/customers/${customer._id}/add-call-history`} className="text-green-600 mr-4">
+                  Add Call History
+                </Link>
                 {user.role === 'admin' && (
                   <Link to={`/customers/${customer._id}/edit`} className="text-yellow-600">Edit</Link>
                 )}

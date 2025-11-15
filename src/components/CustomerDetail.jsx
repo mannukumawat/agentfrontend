@@ -100,18 +100,7 @@ const CustomerDetail = () => {
           <div className="call-history">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900">Call History</h3>
-              <button
-                onClick={() => setShowCallForm(!showCallForm)}
-                className="mt-2 sm:mt-0 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                {showCallForm ? 'Cancel' : 'Add Call History'}
-              </button>
             </div>
-            {showCallForm && (
-              <div className="mb-6">
-                <CallHistoryForm customerId={id} onAdded={handleCallHistoryAdded} />
-              </div>
-            )}
             <div className="space-y-4">
               {callHistories.map(call => (
                 <div key={call._id} className="bg-gray-50 p-4 rounded-md">

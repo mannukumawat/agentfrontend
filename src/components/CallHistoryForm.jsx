@@ -25,7 +25,7 @@ const CallHistoryForm = ({ customerId, onAdded }) => {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-md">
+    <div className="bg-gray-50 p-4 rounded-md mt-10">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-center">

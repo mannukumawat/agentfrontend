@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 const CustomerCardView = ({ customers, agents, user, handleAssignCustomer, handleUnassignCustomer }) => {
@@ -46,6 +45,9 @@ const CustomerCardView = ({ customers, agents, user, handleAssignCustomer, handl
           <div className="mt-3 flex gap-2">
             <Link to={`/customers/${customer._id}`} className="bg-blue-500 text-white py-1 px-3 rounded text-sm">
               View
+            </Link>
+            <Link to={`/customers/${customer._id}/add-call-history`} className="bg-green-500 text-white py-1 px-3 rounded text-sm">
+              Add Call History
             </Link>
             {user.role === 'admin' && (
               <Link to={`/customers/${customer._id}/edit`} className="bg-yellow-500 text-white py-1 px-3 rounded text-sm">
