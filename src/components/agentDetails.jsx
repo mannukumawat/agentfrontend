@@ -16,7 +16,7 @@ export default function AgentsPage() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/agents`, form);
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/agents`, form);
     setForm({ agentName: "", agentId: "", email: "", mobile: "", password: "" });
     setShowForm(false);
     fetchAgents();

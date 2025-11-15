@@ -77,7 +77,7 @@ const CustomerForm = () => {
     const customerData = { ...formData, ...fileUrls };
 
     if (isEdit) {
-      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/customers/${id}`, customerData);
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/customers/${id}`, customerData);
     } else {
       await axios.post(`${import.meta.env.VITE_API_BASE_URL}/customers`, customerData);
     }
