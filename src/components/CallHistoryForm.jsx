@@ -27,7 +27,7 @@ const CallHistoryForm = ({ customerId, customerName, onAdded }) => {
   return (
     <div className="bg-gray-50 p-4 rounded-md mt-10">
       {customerName && (
-        <div className="mb-4 mb-10">
+        <div className=" mb-10">
           <p className="text-xl font-medium text-gray-700">Customer: <span className="text-gray-900">{customerName}</span></p>
         </div>
       )}
