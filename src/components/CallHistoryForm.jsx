@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CallHistoryForm = ({ customerId, onAdded }) => {
+const CallHistoryForm = ({ customerId, customerName, onAdded }) => {
   const [formData, setFormData] = useState({
     interested: false,
     disposition: '',
@@ -26,6 +26,11 @@ const CallHistoryForm = ({ customerId, onAdded }) => {
 
   return (
     <div className="bg-gray-50 p-4 rounded-md mt-10">
+      {customerName && (
+        <div className="mb-4 mb-10">
+          <p className="text-xl font-medium text-gray-700">Customer: <span className="text-gray-900">{customerName}</span></p>
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-center">
