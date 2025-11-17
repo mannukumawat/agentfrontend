@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CallHistoryForm from './CallHistoryForm';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddCallHistoryPage = () => {
   const { id } = useParams();
@@ -25,10 +27,13 @@ const AddCallHistoryPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-6 mt-10">
-      <h2 className="text-2xl font-bold mb-4">Add Call History</h2>
-      <CallHistoryForm customerId={id} customerName={customerName} onAdded={handleCallHistoryAdded} />
-    </div>
+    <>
+      <ToastContainer />
+      <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-6 mt-10">
+        <h2 className="text-2xl font-bold mb-4">Add Call History</h2>
+        <CallHistoryForm customerId={id} customerName={customerName} onAdded={handleCallHistoryAdded} />
+      </div>
+    </>
   );
 };
 

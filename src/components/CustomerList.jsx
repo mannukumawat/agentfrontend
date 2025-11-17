@@ -138,19 +138,21 @@ const CustomerList = () => {
           <input
             placeholder="Filter by Mobile Number"
             value={filters.mobileNumbers}
-            onChange={(e) => handleFilterChange('pinCode', e.target.value)}
+            onChange={(e) => handleFilterChange('mobileNumbers', e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md"
           />
-          <select
-            value={filters.agentId}
-            onChange={(e) => handleFilterChange('agentId', e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md"
-          >
-            <option value="">All Agents</option>
-            {agents.map(agent => (
-              <option key={agent._id} value={agent._id}>{agent.agentName}</option>
-            ))}
-          </select>
+          {user.role === 'admin' && (
+            <select
+              value={filters.agentId}
+              onChange={(e) => handleFilterChange('agentId', e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-md"
+            >
+              <option value="">All Agents</option>
+              {agents.map(agent => (
+                <option key={agent._id} value={agent._id}>{agent.agentName}</option>
+              ))}
+            </select>
+          )}
         </div>
 
         <div className="mb-4 flex flex-col sm:flex-row gap-4">

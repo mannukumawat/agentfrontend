@@ -1,109 +1,119 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from 'react-toastify';
 
-const CallHistoryForm = ({ customerId, customerName, onAdded }) => {
+const CallHistoryForm = ({ customerId, customerName, onAdded, onClose }) => {
   const [formData, setFormData] = useState({
     interested: false,
-    disposition: '',
-    nextCallDateTime: '',
+    disposition: "",
+    nextCallDateTime: "",
     attended: false,
-    notes: '',
+    notes: "",
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/call-histories`, { ...formData, customerId });
-    onAdded();
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/call-histories`,
+        { ...formData, customerId }
+      );
+      toast.success('Call history saved successfully!');
+      onAdded();
+    } catch (error) {
+      toast.error('Error saving call history: ' + (error.response?.data?.message || error.message));
+    }
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-md mt-10">
-      {customerName && (
-        <div className=" mb-10">
-          <p className="text-xl font-medium text-gray-700">Customer: <span className="text-gray-900">{customerName}</span></p>
-        </div>
-      )}
+    <>
+
+      <div className="flex justify-end mb-4">
+        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+      </div>
+
+      {/* FORM */}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-center">
+
+        {/* CHECKBOXES */}
+        <div className="grid grid-cols-2 gap-3">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
-              id="attended"
               name="attended"
               checked={formData.attended}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4"
             />
-            <label htmlFor="attended" className="ml-2 block text-sm text-gray-900">
-              Attended
-            </label>
-          </div>
+            <span className="text-sm">Attended</span>
+          </label>
 
-          <div className="flex items-center">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
-              id="interested"
               name="interested"
               checked={formData.interested}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4"
             />
-            <label htmlFor="interested" className="ml-2 block text-sm text-gray-900">
-              Interested
-            </label>
-          </div>
+            <span className="text-sm">Interested</span>
+          </label>
         </div>
 
+        {/* DISPOSITION */}
         <div>
-          <label htmlFor="disposition" className="block text-sm font-medium text-gray-700 mb-1">Disposition:</label>
+          <label className="text-sm font-medium">Disposition</label>
           <input
-            id="disposition"
             name="disposition"
             value={formData.disposition}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full mt-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter disposition"
           />
         </div>
 
+        {/* DATE */}
         <div>
-          <label htmlFor="nextCallDateTime" className="block text-sm font-medium text-gray-700 mb-1">Next Call Date & Time:</label>
+          <label className="text-sm font-medium">Next Call Date & Time</label>
           <input
-            id="nextCallDateTime"
             type="datetime-local"
             name="nextCallDateTime"
             value={formData.nextCallDateTime}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full mt-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
+        {/* NOTES */}
         <div>
-          <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">Notes:</label>
+          <label className="text-sm font-medium">Notes</label>
           <textarea
-            id="notes"
             name="notes"
             value={formData.notes}
             onChange={handleChange}
             rows="4"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Write call notes here..."
+            className="w-full mt-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div className="flex justify-end">
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Call History
-          </button>
-        </div>
+        {/* BUTTON */}
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded"
+        >
+          Save Call History
+        </button>
       </form>
-    </div>
+    </>
   );
 };
 
