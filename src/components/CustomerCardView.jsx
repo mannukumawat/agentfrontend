@@ -24,7 +24,8 @@ const CustomerCardView = ({ customers, agents, user, handleAssignCustomer, handl
             {/* Header */}
             <div className="flex justify-between items-start">
               <h3 className="text-xl font-semibold text-gray-800">
-                {customer.customerName}
+                {customer.customerName}  
+                
               </h3>
 
               <span
