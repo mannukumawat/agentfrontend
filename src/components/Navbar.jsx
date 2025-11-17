@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -11,7 +11,7 @@ export default function Navbar() {
     const updateDateTime = () => {
       const now = new Date();
       const formatted = now.toLocaleString("en-US", {
-        month: "long",
+        month: "short",
         day: "numeric",
         year: "numeric",
         hour: "numeric",
@@ -29,31 +29,43 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+
+          {/* LEFT SECTION */}
           <div className="flex items-center space-x-4">
+            {/* Mobile Menu Button */}
             <button
               className="md:hidden p-2 border rounded"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               ☰
             </button>
+
+            <div className="text-xl font-bold text-blue-600">
+              Simple Udhari
+            </div>
+
             <Link
               to={user.role === "admin" ? "/admin" : "/agent"}
-              className="text-xl font-bold text-black"
+              className="text-lg font-semibold ml-2"
             >
               CRM Dashboard
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-6 text-black">
+          {/* DESKTOP MENU */}
+          <div className="hidden md:flex items-center space-x-6">
             <Link to="/customers" className="hover:text-gray-600">Customers</Link>
+
             {user.role === "admin" && (
-              <Link to="/agents" className="hover:text-gray-600">Agent</Link>
+              <Link to="/agents" className="hover:text-gray-600">Agents</Link>
             )}
-          
+
             <Link to="/profile" className="hover:text-gray-600">Profile</Link>
+
             <span className="font-medium">{dateTime}</span>
+
             <button
               onClick={logout}
               className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
@@ -63,18 +75,41 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* MOBILE MENU - SLIDE DOWN */}
         {menuOpen && (
-          <div className="md:hidden flex flex-col space-y-2 pb-4 text-black">
-            <Link to="/customers" className="hover:text-gray-600">Customers</Link>
+          <div className="md:hidden bg-gray-50 w-full p-4 rounded-md shadow-inner space-y-3 text-black">
+
+            <Link
+              to="/customers"
+              className="block hover:bg-gray-100 p-2 rounded"
+              onClick={() => setMenuOpen(false)}
+            >
+              Customers
+            </Link>
+
             {user.role === "admin" && (
-              <Link to="/agents" className="hover:text-gray-600">Agent</Link>
+              <Link
+                to="/agents"
+                className="block hover:bg-gray-100 p-2 rounded"
+                onClick={() => setMenuOpen(false)}
+              >
+                Agents
+              </Link>
             )}
-            <Link to="/profile" className="hover:text-gray-600">Profile</Link>
-            <span className="font-medium">{dateTime}</span>
+
+            <Link
+              to="/profile"
+              className="block hover:bg-gray-100 p-2 rounded"
+              onClick={() => setMenuOpen(false)}
+            >
+              Profile
+            </Link>
+
+            <span className="font-semibold block">{dateTime}</span>
+
             <button
               onClick={logout}
-              className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 w-24"
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full text-center"
             >
               Logout
             </button>
