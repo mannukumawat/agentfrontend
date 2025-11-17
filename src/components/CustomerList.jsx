@@ -12,10 +12,10 @@ const CustomerList = () => {
   const [agents, setAgents] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState({ pinCode: '', agentId: '', customerName: '' });
+  const [filters, setFilters] = useState({ mobileNumbers: '', agentId: '', customerName: '' ,  });
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [viewMode, setViewMode] = useState('table');
+  const [viewMode, setViewMode] = useState('card');
   const [totalCustomers, setTotalCustomers] = useState(0);
   const { user } = useAuth();
 
@@ -136,8 +136,8 @@ const CustomerList = () => {
             className="px-3 py-2 border border-gray-300 rounded-md"
           />
           <input
-            placeholder="Filter by Pin Code"
-            value={filters.pinCode}
+            placeholder="Filter by Mobile Number"
+            value={filters.mobileNumbers}
             onChange={(e) => handleFilterChange('pinCode', e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md"
           />
