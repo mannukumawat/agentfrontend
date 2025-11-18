@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Button } from "./ui/Button";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -107,12 +108,12 @@ export default function Navbar() {
 
             <span className="font-semibold block">{dateTime}</span>
 
-            <button
+            <Button
               onClick={logout}
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full text-center"
             >
               Logout
-            </button>
+            </Button>
           </div>
         )}
       </div>

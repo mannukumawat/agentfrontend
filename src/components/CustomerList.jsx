@@ -133,7 +133,7 @@ const CustomerList = () => {
                 <DialogTrigger
                   className={cn(
                     buttonVariants({ variant: 'default' }),
-                    'bg-color-primary hover:bg-color-primary-light text-fg-on-accent'
+                    'bg-color-primary hover:bg-color-primary-light text-fg-on-accent text-center flex items-center gap-2'
                   )}
                 >
                   <FileChartColumn className="w-5 h-5" />
@@ -158,24 +158,15 @@ const CustomerList = () => {
                       <CustomerUpload onUploadSuccess={fetchCustomers} />
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <a className="text-blue-600" href="/sample_customer.csv">
-                      Sample customer file
-                    </a>
-                  </div>
+                  
                 </DialogContent>
               </Dialog>
             )}
-            <Button
-              className="bg-color-primary hover:bg-color-primary-light text-fg-on-accent"
-              onClick={() => {}}
-            >
-              <CloudDownload />
-              <span>Download</span>
-            </Button>
+           
           </div>
         }
       />
+      
       <div className="flex gap-5 w-full my-4 justify-between items-center">
         <CustomerFilters
           filters={filters}
