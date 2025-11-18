@@ -4,17 +4,33 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from 'react-helmet';
+import { FaTable } from 'react-icons/fa';
+import { Grid2x2, FileChartColumn, CloudDownload } from 'lucide-react';
+import PageHeader from './shared/PageHeader';
+import { Button, buttonVariants } from './ui/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/Dialog';
+import { cn } from '../lib/utils';
 import CustomerTableView from './CustomerTableView';
 import CustomerCardView from './CustomerCardView';
+import CustomerFilters from './CustomerFilters';
+import CustomerUpload from './CustomerUpload';
+
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
   const [agents, setAgents] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState({ mobileNumbers: '', agentId: '', customerName: '' ,  });
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [filters, setFilters] = useState({ mobileNumbers: '', agentId: '', customerName: '' });
+
   const [viewMode, setViewMode] = useState('card');
   const [totalCustomers, setTotalCustomers] = useState(0);
   const { user } = useAuth();
@@ -52,39 +68,8 @@ const CustomerList = () => {
     }
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilters({ ...filters, [key]: value });
-    setCurrentPage(1);
-  };
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  };
-
-  const handleFileUpload = async () => {
-    if (!selectedFile) {
-      toast.error('Please select a CSV file to upload.');
-      return;
-    }
-
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append('csvFile', selectedFile);
-
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/customers/upload-csv`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      toast.success(res.data.message);
-      setSelectedFile(null);
-      fetchCustomers();
-    } catch (error) {
-      toast.error('Error uploading CSV: ' + error.response?.data?.message || error.message);
-    } finally {
-      setIsUploading(false);
-    }
   };
 
   // ✅ Smart Pagination Function
@@ -122,101 +107,89 @@ const CustomerList = () => {
 
   return (
     <>
-      <ToastContainer />
-      <div className="bg-white shadow rounded-lg mt-12">
-        <div className="px-4 py-5 sm:p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Customers ({totalCustomers})</h2>
-
-        {/* Filters */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-          <input
-            placeholder="Filter by Customer Name"
-            value={filters.customerName}
-            onChange={(e) => handleFilterChange('customerName', e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md"
-          />
-          <input
-            placeholder="Filter by Mobile Number"
-            value={filters.mobileNumbers}
-            onChange={(e) => handleFilterChange('mobileNumbers', e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md"
-          />
-          {user.role === 'admin' && (
-            <select
-              value={filters.agentId}
-              onChange={(e) => handleFilterChange('agentId', e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
+      <Helmet>
+        <title>Customer List</title>
+      </Helmet>
+      <PageHeader
+        title="customers"
+        actions={
+          <div className="flex justify-end p-4 max-md:p-0 max-md:mt-10 space-x-4 flex-grow flex-wrap max-md:gap-4 mt-10">
+            <Button
+              variant={viewMode === 'table' ? 'default' : 'outline'}
+              onClick={() => setViewMode('table')}
+              className="bg-color-primary hover:bg-color-primary-light text-fg-on-accent"
             >
-              <option value="">All Agents</option>
-              {agents.map(agent => (
-                <option key={agent._id} value={agent._id}>{agent.agentName}</option>
-              ))}
-            </select>
-          )}
-        </div>
-
-        <div className="mb-4 flex flex-col sm:flex-row gap-4">
-          {user.role === 'admin' && (
-            <>
-              <Link to="/customers/new" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Create New Customer
-              </Link>
-
-              <div className="flex flex-col sm:flex-row items-center gap-2">
-                <input
-                  type="file"
-                  accept=".csv"
-                  onChange={(e) => setSelectedFile(e.target.files[0])}
-                  className="px-3 py-2 border border-gray-300 rounded-md w-full sm:w-auto"
-                />
-                <button
-                  onClick={handleFileUpload}
-                  disabled={isUploading}
-                  className={`font-bold py-2 px-4 rounded w-full sm:w-auto ${
-                    isUploading
-                      ? 'bg-gray-500 cursor-not-allowed text-gray-300'
-                      : 'bg-blue-500 hover:bg-blue-700 text-white'
-                  }`}
+              <FaTable size={15} />
+            </Button>
+            <Button
+              variant={viewMode === 'card' ? 'default' : 'outline'}
+              onClick={() => setViewMode('card')}
+              className="bg-color-primary hover:bg-color-primary-light text-fg-on-accent"
+            >
+              <Grid2x2 size={15} />
+            </Button>
+            {user.role === 'admin' && (
+              <Dialog>
+                <DialogTrigger
+                  className={cn(
+                    buttonVariants({ variant: 'default' }),
+                    'bg-color-primary hover:bg-color-primary-light text-fg-on-accent'
+                  )}
                 >
-                  {isUploading ? 'Uploading...' : 'Upload CSV'}
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* View Mode Tabs */}
-        <div className="mb-4 flex flex-col sm:flex-row gap-2">
-          <button
-            onClick={() => setViewMode('table')}
-            className={`px-4 py-2 rounded ${
-              viewMode === 'table' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
-            }`}
-          >
-            Table View
-          </button>
-          <button
-            onClick={() => setViewMode('card')}
-            className={`px-4 py-2 rounded ${
-              viewMode === 'card' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
-            }`}
-          >
-            Card View
-          </button>
-        </div>
-
-        {/* Conditional Rendering based on viewMode */}
-        {viewMode === 'table' && (
-          <CustomerTableView
-            customers={customers}
-            agents={agents}
-            user={user}
-            handleAssignCustomer={handleAssignCustomer}
-            handleUnassignCustomer={handleUnassignCustomer}
-          />
-        )}
-
-        {viewMode === 'card' && (
+                  <FileChartColumn className="w-5 h-5" />
+                  Upload CSV
+                </DialogTrigger>
+                <DialogContent className="w-fit p-4">
+                  <DialogHeader>
+                    <DialogTitle></DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+                  <div className="flex flex-col md:flex-row border border-gray-300 shadow-sm overflow-hidden">
+                    <div className="md:w-[30%]">
+                      <Button
+                        onClick={() => {}}
+                        className="w-full h-12 rounded-none"
+                        variant={'default'}
+                      >
+                        Customer Data
+                      </Button>
+                    </div>
+                    <div className="p-4 md:w-[70%]">
+                      <CustomerUpload onUploadSuccess={fetchCustomers} />
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <a className="text-blue-600" href="/sample_customer.csv">
+                      Sample customer file
+                    </a>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
+            <Button
+              className="bg-color-primary hover:bg-color-primary-light text-fg-on-accent"
+              onClick={() => {}}
+            >
+              <CloudDownload />
+              <span>Download</span>
+            </Button>
+          </div>
+        }
+      />
+      <div className="flex gap-5 w-full my-4 justify-between items-center">
+        <CustomerFilters
+          filters={filters}
+          onFilterChange={(newFilters) => {
+            setFilters(newFilters);
+            setCurrentPage(1);
+          }}
+          agents={agents}
+          onRefresh={fetchCustomers}
+          totalCustomers={totalCustomers}
+        />
+      </div>
+      <div className="bg-background">
+        {viewMode === 'card' ? (
           <CustomerCardView
             customers={customers}
             agents={agents}
@@ -224,15 +197,20 @@ const CustomerList = () => {
             handleAssignCustomer={handleAssignCustomer}
             handleUnassignCustomer={handleUnassignCustomer}
           />
-        )}
-
-        {/* ✅ Smart Pagination */}
-        <div className="mt-4 flex justify-center space-x-2">
-          {renderSmartPagination()}
-        </div>
-
-        </div>
+        ) : viewMode === 'table' ? (
+          <CustomerTableView
+            customers={customers}
+            agents={agents}
+            user={user}
+            handleAssignCustomer={handleAssignCustomer}
+            handleUnassignCustomer={handleUnassignCustomer}
+          />
+        ) : null}
       </div>
+      <div className="mt-4 flex justify-center space-x-2">
+        {renderSmartPagination()}
+      </div>
+      <ToastContainer />
     </>
   );
 };
