@@ -23,10 +23,8 @@ export default function CustomerCardView({
           >
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 w-full">
-              
               {/* LEFT: Name + Select */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full">
-
                 {/* Customer Name */}
                 <div className="flex items-center gap-2">
                   <User className="w-5 h-5 text-gray-700" />
@@ -87,7 +85,14 @@ export default function CustomerCardView({
                 {customer.mobileNumbers?.[0] || "N/A"}
               </p>
 
-              <p className="text-sm text-gray-600 flex items-center gap-2">
+              <p
+                className="text-sm text-gray-600 flex items-center gap-2 cursor-pointer hover:underline"
+                onClick={() =>
+                  (window.location.href = `mailto:${
+                    customer.emails?.[0] || ""
+                  }`)
+                }
+              >
                 <Mail className="w-4 h-4" />
                 {customer.emails?.[0] || "N/A"}
               </p>
