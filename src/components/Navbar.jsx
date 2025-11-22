@@ -32,7 +32,6 @@ export default function Navbar() {
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-
           {/* LEFT SECTION */}
           <div className="flex items-center space-x-4">
             {/* Mobile Menu Button */}
@@ -43,27 +42,29 @@ export default function Navbar() {
               ☰
             </button>
 
-            <div className="text-xl font-bold text-blue-600">
-              Simple Udhari
-            </div>
-
             <Link
               to={user.role === "admin" ? "/admin" : "/agent"}
               className="text-lg font-semibold ml-2"
             >
-              CRM Dashboard
+              Simple Udhari
             </Link>
           </div>
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/customers" className="hover:text-gray-600">Customers</Link>
+            <Link to="/customers" className="hover:text-gray-600">
+              Customers
+            </Link>
 
             {user.role === "admin" && (
-              <Link to="/agents" className="hover:text-gray-600">Agents</Link>
+              <Link to="/agents" className="hover:text-gray-600">
+                Agents
+              </Link>
             )}
 
-            <Link to="/profile" className="hover:text-gray-600">Profile</Link>
+            <Link to="/profile" className="hover:text-gray-600">
+              Profile
+            </Link>
 
             <span className="font-medium">{dateTime}</span>
 
@@ -79,7 +80,6 @@ export default function Navbar() {
         {/* MOBILE MENU - SLIDE DOWN */}
         {menuOpen && (
           <div className="md:hidden bg-gray-50 w-full p-4 rounded-md shadow-inner space-y-3 text-black">
-
             <Link
               to="/customers"
               className="block hover:bg-gray-100 p-2 rounded"
