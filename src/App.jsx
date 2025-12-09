@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import './App.css';
 import AgentsCreateanddetails from './components/agentDetails';
 import Profile from './components/Profile';
+import DailyView from './components/dailyview';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useAuth();
@@ -104,6 +105,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/customers/dailyview"
+                element={
+                  <PrivateRoute>
+                    <DailyView />
                   </PrivateRoute>
                 }
               />

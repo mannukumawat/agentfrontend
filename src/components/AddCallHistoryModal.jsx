@@ -15,13 +15,26 @@ const AddCallHistoryModal = ({ isOpen, onClose, customerId, customerName, onAdde
   return (
     <>
       <ToastContainer />
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onClose}
-        contentLabel="Add Call History"
-        className="modal"
-        overlayClassName="overlay"
-      >
+     <Modal
+  isOpen={isOpen}
+  onRequestClose={onClose}
+  style={{
+    overlay: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      zIndex: 1000,
+    },
+    content: {
+      inset: "unset",
+      background: "transparent",
+      border: "none",
+      padding: 0,
+    },
+  }}
+>
+
         <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
           <h2 className="text-xl font-bold mb-4">Add Call History for {customerName}</h2>
 

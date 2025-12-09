@@ -71,8 +71,7 @@ const CustomerList = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-  // ✅ Smart Pagination Function
+  
   const renderSmartPagination = () => {
     const pages = [];
     const start = Math.max(1, currentPage - 2);
@@ -161,6 +160,17 @@ const CustomerList = () => {
                   
                 </DialogContent>
               </Dialog>
+            )}
+
+              {user.role === 'admin' && (
+           <Button>
+
+           <Link
+              to="DailyView"
+              className="" >
+                   Daily View
+              </Link>
+           </Button>
             )}
            
           </div>
