@@ -29,7 +29,13 @@ const CustomerList = () => {
   const [agents, setAgents] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState({ mobileNumbers: '', agentId: '', customerName: '' });
+  const [filters, setFilters] = useState({ 
+  mobileNumbers: '', 
+  agentId: '', 
+  customerName: '',
+  callStatus: 'not_called'
+});
+
 
   const [viewMode, setViewMode] = useState('card');
   const [totalCustomers, setTotalCustomers] = useState(0);

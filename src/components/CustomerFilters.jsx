@@ -10,19 +10,23 @@ const CustomerFilters = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [formData, setFormData] = useState({
+ const [formData, setFormData] = useState({
+  customerName: filters.customerName || '',
+  mobileNumbers: filters.mobileNumbers || '',
+  agentId: filters.agentId || '',
+  callStatus: filters.callStatus || 'not_called'
+});
+
+
+ useEffect(() => {
+  setFormData({
     customerName: filters.customerName || '',
     mobileNumbers: filters.mobileNumbers || '',
     agentId: filters.agentId || '',
+    callStatus: filters.callStatus || 'not_called',
   });
+}, [filters]);
 
-  useEffect(() => {
-    setFormData({
-      customerName: filters.customerName || '',
-      mobileNumbers: filters.mobileNumbers || '',
-      agentId: filters.agentId || '',
-    });
-  }, [filters]);
 
   const handleApplyFilters = () => {
     onFilterChange(formData);
@@ -34,6 +38,7 @@ const CustomerFilters = ({
       customerName: '',
       mobileNumbers: '',
       agentId: '',
+       callStatus: 'not_called'
     };
     setFormData(cleared);
     onFilterChange(cleared);
@@ -156,6 +161,16 @@ const CustomerFilters = ({
                   </button>
                 </div>
               )}
+
+{formData.callStatus && (
+  <div className="flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm border border-orange-200">
+    📞
+    <span>Status: {formData.callStatus === 'called' ? 'Called' : 'Not Called'}</span>
+  </div>
+)}
+
+
+              
             </div>
           )}
         </div>
@@ -212,6 +227,23 @@ const CustomerFilters = ({
                 ))}
               </select>
             </div>
+
+
+            {/* Call Status */}
+<div className="space-y-3">
+  <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+    📞 Call Status
+  </label>
+  <select
+    value={formData.callStatus}
+    onChange={(e) => setFormData({ ...formData, callStatus: e.target.value })}
+    className="bg-white border border-gray-300 focus:border-blue-500 h-12 rounded-md w-full px-3"
+  >
+    <option value="not_called">Not Called (Default)</option>
+    <option value="called">Called</option>
+  </select>
+</div>
+
           </div>
 
           {/* Action Buttons */}
